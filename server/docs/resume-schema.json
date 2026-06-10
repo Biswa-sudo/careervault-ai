@@ -1,0 +1,37 @@
+{
+  "personalInfo": {
+    "name": "",
+    "email": "",
+    "phone": "",
+    "location": "",
+    "linkedin": "",
+    "github": ""
+  },
+  "summary": "",
+  "experience": [
+    {
+      "company": "",
+      "position": "",
+      "startDate": "",
+      "endDate": "",
+      "description": ""
+    }
+  ],
+  "education": [
+    {
+      "institution": "",
+      "degree": "",
+      "startDate": "",
+      "endDate": ""
+    }
+  ],
+  "skills": [],
+  "projects": [
+    {
+      "name": "",
+      "description": "",
+      "link": ""
+    }
+  ],
+  "certifications": []
+}

@@ -1,6 +1,7 @@
 const express = require('express');
 const authenticate = require('../../middleware/authenticate');
 const validate = require('../../middleware/validate');
+const renderController = require('../rendering/render.controller');
 const resumeController = require('./resume.controller');
 const {
   createResumeSchema,
@@ -20,6 +21,12 @@ router.post(
 router.get(
   '/',
   resumeController.getAllResumes
+);
+
+router.get(
+  '/:id/preview',
+  authenticate,
+  renderController.previewResume
 );
 
 router.get(
