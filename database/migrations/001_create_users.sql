@@ -1,0 +1,20 @@
+CREATE TABLE users (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  name VARCHAR(120) NOT NULL,
+  phone_number VARCHAR(30) NOT NULL,
+  email VARCHAR(191) NULL,
+  password_hash VARCHAR(255) NOT NULL,
+  subscription_status ENUM('free', 'active', 'expired', 'cancelled') NOT NULL DEFAULT 'free',
+  subscription_plan VARCHAR(50) NOT NULL DEFAULT 'free',
+  resume_limit TINYINT UNSIGNED NOT NULL DEFAULT 5,
+  email_verified_at DATETIME NULL,
+  last_login_at DATETIME NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  deleted_at DATETIME NULL,
+  PRIMARY KEY (id),
+  UNIQUE KEY uq_users_phone_number (phone_number),
+  UNIQUE KEY uq_users_email (email),
+  KEY idx_users_subscription_status (subscription_status),
+  KEY idx_users_deleted_at (deleted_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
