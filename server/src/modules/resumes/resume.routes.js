@@ -30,6 +30,13 @@ router.get(
 );
 
 router.get(
+  '/:id/pdf',
+  authenticate,
+  renderController.downloadPdf
+);
+
+
+router.get(
   '/:id',
   resumeController.getResumeById
 );
