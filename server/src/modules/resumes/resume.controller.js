@@ -1,3 +1,4 @@
+const { serializeResume } = require('../../serializers/resume.serializer');
 const resumeService = require('./resume.service');
 const asyncHandler = require('../../utils/asyncHandler');
 
@@ -9,16 +10,26 @@ const createResume = asyncHandler(async (req, res) => {
 
   res.status(201).json({
     success: true,
-    data: resume
+    // data: resume
+    data: serializeResume(resume)
   });
 });
+
+// const getAllResumes = asyncHandler(async (req, res) => {
+//   const resumes = await resumeService.getAllResumes(req.user.id);
+
+//   res.json({
+//     success: true,
+//     data: resumes
+//   });
+// });
 
 const getAllResumes = asyncHandler(async (req, res) => {
   const resumes = await resumeService.getAllResumes(req.user.id);
 
-  res.json({
+  res.status(200).json({
     success: true,
-    data: resumes
+    data: resumes.map(serializeResume)
   });
 });
 
@@ -28,10 +39,15 @@ const getResumeById = asyncHandler(async (req, res) => {
     req.user.id
   );
 
-  res.json({
-    success: true,
-    data: resume
-  });
+//   res.json({
+//     success: true,
+//     data: resume
+//   });
+
+res.status(200).json({
+  success: true,
+  data: serializeResume(resume)
+});
 });
 
 const updateResume = asyncHandler(async (req, res) => {
@@ -43,7 +59,8 @@ const updateResume = asyncHandler(async (req, res) => {
 
   res.json({
     success: true,
-    data: resume
+    // data: resume
+    data: serializeResume(resume)
   });
 });
 
