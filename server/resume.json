@@ -1,0 +1,9 @@
+{
+  "title": "Software Developer Resume",
+  "templateId": "default",
+  "resumeData": {
+    "name": "Biswaranjan Pradhan",
+    "email": "test@example.com",
+    "skills": ["React", "Node.js", "MySQL"]
+  }
+}

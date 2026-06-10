@@ -8,6 +8,7 @@ const { apiLimiter } = require('./middleware/rateLimiters');
 const securityMiddleware = require('./middleware/security');
 const authRoutes = require('./modules/auth/auth.routes');
 const userRoutes = require('./modules/users/user.routes');
+const resumeRoutes = require('./modules/resumes/resume.routes');
 
 const app = express();
 
@@ -41,6 +42,7 @@ app.get('/health', async (_req, res, next) => {
 
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/resumes', resumeRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
