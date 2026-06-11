@@ -1,5 +1,8 @@
 {
   "dependencies": {
-    "puppeteer": "^24.43.1"
+    "axios": "^1.17.0",
+    "bootstrap": "^5.3.8",
+    "puppeteer": "^24.43.1",
+    "react-router-dom": "^6.30.4"
   }
 }
