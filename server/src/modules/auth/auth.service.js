@@ -28,11 +28,14 @@ async function signup(payload) {
   }
 
   const passwordHash = await hashPassword(payload.password);
+  
+  // FIXED: Changed payload.name to payload.fullName to perfectly match our frontend form field
   const user = await userModel.createUser({
-    name: payload.name,
+    name: payload.fullName || payload.name, 
     email,
     phoneNumber,
-    passwordHash
+    passwordHash,
+    isSubscribed: false // Defaulting new accounts to non-subscribed status for our guard gate
   });
 
   const accessToken = signAccessToken(user);

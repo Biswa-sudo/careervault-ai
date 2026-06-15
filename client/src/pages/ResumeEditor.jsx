@@ -15,7 +15,15 @@ const isEditMode = Boolean(id);
   const [resume, setResume] = useState(null);
   const [loading, setLoading] = useState(true);
   const [title, setTitle] = useState("");
-const [name, setName] = useState("");
+const [personalInfo, setPersonalInfo] = useState({
+  name: "",
+  email: "",
+  phone: "",
+  location: "",
+  linkedin: "",
+  github: "",
+});
+
 const [skills, setSkills] = useState("");
 
 const [selectedCandidate, setSelectedCandidate] =
@@ -231,7 +239,13 @@ setSelectedTemplate(
 
   <input
     className="form-control"
-    value={name}
+    value={personalInfo.name}
+onChange={(e) =>
+  setPersonalInfo({
+    ...personalInfo,
+    name: e.target.value,
+  })
+}
     onChange={(e) =>
       setName(e.target.value)
     }
