@@ -6,6 +6,9 @@ import {
   createResume,
 } from "../api/resumeApi";
 
+import { sampleCandidates } from "../data/sampleCandidates";
+import { templates } from "../data/templates";
+
 export default function ResumeEditor() {
   const { id } = useParams();
 const isEditMode = Boolean(id);
@@ -14,6 +17,12 @@ const isEditMode = Boolean(id);
   const [title, setTitle] = useState("");
 const [name, setName] = useState("");
 const [skills, setSkills] = useState("");
+
+const [selectedCandidate, setSelectedCandidate] =
+  useState("developer");
+
+const [selectedTemplate, setSelectedTemplate] =
+  useState("modern");
 
   useEffect(() => {
     const loadResume = async () => {
@@ -34,6 +43,10 @@ setSkills(
     ", "
   ) || ""
 );
+
+setSelectedTemplate(
+  response.data.templateId || "modern"
+);
       } catch (error) {
         console.error(error);
       } finally {
@@ -44,9 +57,19 @@ setSkills(
     if (isEditMode) {
   loadResume();
 } else {
-  setTitle("New Resume");
-  setName("");
-  setSkills("");
+  const candidate =
+    sampleCandidates[0];
+
+  setTitle(
+    `${candidate.title} Resume`
+  );
+
+  setName(candidate.name);
+
+  setSkills(
+    candidate.skills.join(", ")
+  );
+
   setLoading(false);
 }
   }, [id]);
@@ -67,11 +90,25 @@ setSkills(
     );
   }
 
+  const handleCandidateChange = (candidateId) => {
+  setSelectedCandidate(candidateId);
+
+  const candidate = sampleCandidates.find(
+    (c) => c.id === candidateId
+  );
+
+  if (!candidate) return;
+
+  setTitle(`${candidate.title} Resume`);
+  setName(candidate.name);
+  setSkills(candidate.skills.join(", "));
+};
+
   const handleSave = async () => {
   try {
     const payload = {
       title,
-      templateId: "modern",
+      templateId: selectedTemplate,
       resumeData: {
         name,
         skills: skills
@@ -94,9 +131,14 @@ setSkills(
       alert("Resume created!");
     }
   } catch (error) {
-    console.error(error);
-    alert("Save failed");
+  console.error("CREATE ERROR:", error);
+
+  if (error.response) {
+    console.log("SERVER RESPONSE:", error.response.data);
   }
+
+  alert("Save failed");
+}
 };
 
   return (
@@ -115,6 +157,59 @@ setSkills(
     ? resume.title
     : "New Resume"}
 </h4>
+
+<div className="mb-3">
+  <label className="form-label">
+    Candidate
+  </label>
+
+  <select
+    className="form-select"
+    value={selectedCandidate}
+    onChange={(e) =>
+      handleCandidateChange(
+        e.target.value
+      )
+    }
+  >
+    {sampleCandidates.map(
+      (candidate) => (
+        <option
+          key={candidate.id}
+          value={candidate.id}
+        >
+          {candidate.name}
+        </option>
+      )
+    )}
+  </select>
+</div>
+
+<div className="mb-3">
+  <label className="form-label">
+    Template
+  </label>
+
+  <select
+    className="form-select"
+    value={selectedTemplate}
+    onChange={(e) =>
+      setSelectedTemplate(
+        e.target.value
+      )
+    }
+  >
+    {templates.map((template) => (
+      <option
+        key={template.id}
+        value={template.id}
+      >
+        {template.name}
+      </option>
+    ))}
+  </select>
+</div>
+
 <div className="mb-3">
   <label className="form-label">
     Resume Title

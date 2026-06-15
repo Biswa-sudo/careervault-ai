@@ -4,7 +4,7 @@ const AppError = require('../../utils/AppError');
 async function createResume(userId, data) {
   const count = await resumeModel.countByUserId(userId);
 
-  if (count >= 5) {
+  if (count >= 10) {
     throw new AppError('Resume limit reached. Maximum 5 resumes allowed.', 400);
   }
 
