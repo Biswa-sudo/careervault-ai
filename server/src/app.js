@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const morgan = require('morgan');
 const env = require('./config/env');
 const { checkDatabase } = require('./db/pool');
@@ -14,8 +15,18 @@ const templateRoutes = require('./modules/templates/template.routes');
 
 const app = express();
 
+// Apply security middleware first (includes headers, etc.)
 securityMiddleware(app);
 
+// Enable CORS for your frontend origin during development
+app.use(cors({
+  origin: 'http://localhost:5173',  // Vite's default dev server
+  credentials: true,                // If you use cookies/sessions
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+// Body parsing middleware
 app.use(express.json({ limit: '1mb' }));
 app.use(express.urlencoded({ extended: false }));
 
