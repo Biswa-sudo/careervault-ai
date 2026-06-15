@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import api from '../api/axios';
 
 export default function Signup() {
   // 1. Component States for Form Tracking
@@ -19,32 +20,24 @@ export default function Signup() {
     setLoading(true);
 
     const payload = { 
-      fullName, 
+      name: fullName,
       email, 
       password, 
       phoneNumber 
     };
 
     try {
-      // Direct Native Fetch Request to your backend pipeline
-      const response = await fetch('/api/auth/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      });
+      // Use axios to make API request with proper URL
+      const response = await api.post('/auth/signup', payload);
 
-      const result = await response.json();
-
-      if (!response.ok || !result.success) {
-        throw new Error(result.message || "Something went wrong during signup.");
+      if (response.data && response.data.success) {
+        // Success! Account created, send them straight to login
+        navigate('/login');
+      } else {
+        throw new Error(response.data?.message || "Something went wrong during signup.");
       }
-
-      // Success! Account created, send them straight to login
-      navigate('/login');
     } catch (err) {
-      setError(err.message);
+      setError(err.response?.data?.message || err.message || "Signup failed. Please try again.");
     } finally {
       setLoading(false);
     }
